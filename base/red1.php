@@ -28,8 +28,10 @@ function dump($what){
 }
 */
 echo "<pre>";
-$result = R::getAll("SELECT * FROM `user` LIMIT 2");
-foreach($result as $v)
+$ide =5;
+$result = R::getAll("SELECT * FROM user WHERE id = ?",array(1));
+print_r($result);
+/*foreach($result as $v)
 {
 	echo $v['name'];
 }

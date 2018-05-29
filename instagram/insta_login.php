@@ -1,3 +1,8 @@
+<?php
+	require_once "instaApi.php";
+	
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -12,11 +17,11 @@
 	<div class="row justify-content-center" style="margin-top: 100px;">
 		<div class="col-md-4 col-md-offset-3" align="center" >
 			<img src="libs/image1.jpeg"><br>
-			<form>
+			<form >	
 				<input type="email" name="email" placeholder="email..."><br>
 				<input type="password" name="password" placeholder="pass..."><br>
 				<input type="submit" name="do_submit" value="log in ">
-				<input type="button" name="" value="log in with insta">
+				<input type="button" name="" onclick="window.location = '<?php echo $Instagram -> getLoginURL() ?>'" value="log in with insta">
 
 			</form>
 		</div>

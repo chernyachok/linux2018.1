@@ -1,37 +1,6 @@
 <?php 
-require "db.php";
-$data = $_POST;
-if(isset($data['do_submit']) ){
-	$user = R::findOne('users', 'login = ?', array($data['login']));
-	$errors = array();
-	if($user)
-	{
-		if(password_verify($data['password'], $user -> password) )
-		{
-			//ok
-			$_SESSION ['logged_user'] = $user;
-			echo '<div style="color: green" ><a href="index.php">'."Ви авторизовані!".'</a></div><hr>';
-		}
-		else
-		{
-			$errors[] = "Пароль не правильний";
-		}
-	}
-	else
-	{
-		$errors[] = "Користувача не знайдено";
-	}
 
-	if(!empty($errors))
-	{
-		echo '<div style="color: red">'.array_shift($errors).'</div><hr>';
-	}
-	
-	
-}
-
- ?>
-
+?>
 <!DOCTYPE html>
 
 <html>
@@ -40,10 +9,13 @@ if(isset($data['do_submit']) ){
 </head>
 <body>
 
-<form action="login.php" method="post">
-	Login: <input type="text" name="login" value="<?php echo $data['login'] ?>"><br>
-	Password: <input type="password" name="password" value="<?php echo $data['password'] ?>">
-	<input type="submit" name="do_submit" >
+<form >
+	Login: <input type="text" name="login" id="login" ><br>
+	Password: <input type="password" name="password" id="password">
+	<input type="button" id="do_login" value="Log In"  >
 </form>
+<div><a href="signup.php">Назад</a></div>
+<div id="test"></div>
+<script type="text/javascript" src="script_login.js"></script>
 </body>
 </html>
