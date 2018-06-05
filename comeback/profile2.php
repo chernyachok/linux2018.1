@@ -1,5 +1,5 @@
 <?php
-require "libs/rb.php";
+require_once "index.php";
 //var_dump($_FILES);
 //ini_set('upload_max_filesize', '1M');
 	if(isset($_FILES) && $_FILES['inputfile']['error'] ==0){
@@ -24,8 +24,11 @@ require "libs/rb.php";
 			$dir = __DIR__."/imgs/".$img_server;////////////////////
 			$mov = move_uploaded_file($temp, $dir);
 				if($mov){
+					$res = R::findOne('avatars', 'login=?',array($_SESSION['logged_user']->login));
+					$res->image = "$img_server";
+					R::store($res);
 					echo "file successfully downloaded under name $img_server"."<hr>";
-
+					unset($_FILES);
 				}
 				else 
 					echo "cant move file";
@@ -46,19 +49,3 @@ require "libs/rb.php";
 			}
 	}
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<form enctype="multipart/form-data" method="post" action="upload.php">
-	<p>Download</p>
-		<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
-
-	<input type="file" name="inputfile" id="inputfile"><br><br>
-	<input type="submit" name="do_submit">
-</form>
-</body>
-</html>
