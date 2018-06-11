@@ -1,34 +1,32 @@
 <?php
 //echo "fuk";
 
-require "libs/rb.php";
+require "db.php";
 
-$conn =  R::setup( 'mysql:host=localhost;dbname=messenger',
-        'root', '123' ); //for both mysql o
-
-	if(!R::testConnection()){
-		echo "failed connection";
-	}
+//$conn =  R::setup( 'mysql:host=localhost;dbname=messenger',
+  //      'root', '123' ); //for both mysql o
 $data = $_POST;
 if(isset($data)){
 	$errors = array();
 	if(trim($data['login']) =="")
-		$errors[] = "fill a login";
+		$errors[] = "Enter a login";
 
 	if(trim($data['email']) =="")
-		$errors[] = "fill an email";
+		$errors[] = "Enter an email";
 	
 	if($data['password_1'] =="")
-		$errors[] = "fill a password";
-	if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
-		$errors[] = "email incorrect";
+		$errors[] = "Enter a password";
 	if($data['password_2'] != $data['password_1'])
-		$errors[] = "2 password does not match";
+		$errors[] = "passwords dont match";
+
+	if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+	$errors[] = "Enter correct email";
+
 	if(R::count('users','login = ?',array($data['login']) ) >0){
-		$errors[] = "such login exist";
+		$errors[] = "Such login exist";
 	}
 	if(R::count('users','email = ?',array($data['email']) ) >0){
-		$errors[] = "such email exist";
+		$errors[] = "Such email exist";
 	}
 	
 	if(empty($errors)){
@@ -36,6 +34,11 @@ if(isset($data)){
 		$user->login = $data['login'];
 		$user->email = $data['email'];
 		$user->password = password_hash($data['password_2'],PASSWORD_DEFAULT);
+		R::store($user);
+		$user = R::dispense('avatars');
+		$user->login=$data['login'];
+		$user->time= time();
+		$user->image="image699.png";
 		R::store($user);
 		echo 1;
 	}

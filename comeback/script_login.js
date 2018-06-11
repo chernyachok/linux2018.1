@@ -15,11 +15,29 @@ function ajaxPost(url, params){
 			if(response==1){
 				window.location.href ='index.php';
 			}
-			else
-				document.querySelector('#test').innerHTML= response;
+			else{
+				switch(response){
+					case "User not found":
+					$("#test1").html(response);
+					setTime(2000,1);
+					break;
+					case "Incorrect password":
+					$("#test2").html(response);
+					setTime(2000,2);
+					break;
+					default:
+					$("#test").html(response);
+				}
+			}
 		}
 	}
 	log_request.open('POST',url);
 	log_request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 	log_request.send(params);
+}
+function setTime(interval,num){
+		setTimeout(function(){
+		$("#test"+num).html("")
+	},
+		interval);
 }

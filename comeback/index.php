@@ -1,23 +1,23 @@
 <?php
 require "db.php";
-require_once "profile2.php";
+//require_once "profile2.php";
+$data_img = R::findOne('avatars','login=?',array($_SESSION['logged_user']-> login));
 ?>
 <?php
 if(isset($_SESSION['logged_user'])){
+require "online.php";
 echo "Hi, ".$_SESSION['logged_user']-> login."<br>";
+echo "<span style='color:blue;'>Online on server: ".$online_count."</span>"."<br>";
 ?>
-<form enctype="multipart/form-data" method="post" action="index.php">
-	<p>Download or update</p>
-		<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
-
+<form enctype="multipart/form-data" method="post" >
+	<p>update</p>
 	<input type="file" name="inputfile" id="inputfile"><br><br>
-	<input type="submit" name="do_submit">
 </form>
+<span id="result"><img src="imgs/<?php  echo $data_img->image ?>" width="225" height="150"></span>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="script21.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <?php
-$query = R::findOne('avatars', 'login=?', array($_SESSION['logged_user']->login));
-//echo "<pre>";
-//var_dump($query);
-echo "<img src='imgs/".$query->image."' alt='Trulli' width='500' height='333'>";
 echo "<br>";
 echo "<a href='logout.php'> Вийти</a>";
 echo "<hr>";

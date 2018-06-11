@@ -1,8 +1,9 @@
 <?php 
 session_start();
-require "libs/rb.php";
- R::setup( 'mysql:host=localhost;dbname=messenger',
-        'root', '123' ); //f
+//require "libs/rb.php";
+ //R::setup( 'mysql:host=localhost;dbname=messenger',
+ //       'root', '123' ); //f
+require "db.php";
 $data = $_POST;
 if(isset($data) ){
 	$user = R::findOne('users', 'login = ?', array($data['login']));
@@ -17,13 +18,13 @@ if(isset($data) ){
 		}
 		else
 		{
-			$errors[] = "Пароль не правильний";
+			$errors[] = "Incorrect password";
 			//var_dump($data);
 		}
 	}
 	else
 	{
-		$errors[] = "Користувача не знайдено";
+		$errors[] = "User not found";
 	}
 
 	if(!empty($errors))
