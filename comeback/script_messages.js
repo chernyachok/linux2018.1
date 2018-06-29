@@ -1,4 +1,5 @@
-$(document).ready(function(){	
+$(document).ready(function(){
+	
 	$("#do_text").click(function(){
 		var message = $("#text").val();
 		var login = $("#logged_user").html();
@@ -7,11 +8,19 @@ $(document).ready(function(){
 			message: message,
 			login: login
 		}
+		function clear(num){
+			$("#text").val("");
+			setTimeout(function(){
+							msg.html("");
+						},num);
+		}
 		function chage_pos(num){
 			for(var i=num; i>0; i--){
 				if((i-1)==0)
 					{
-						$("#position"+i).html("<u>"+login+"</u> wrote: "+"<i>"+message+"</i>");
+						//$("#position"+i).html($("#first_row").html())
+						$("#position"+i).html("You wrote: "+"<i>"+message+"</i>");
+						//"<u>"+login+"</u> wrote: "+"<i>"+message+"</i>"
 					}
 				$("#position"+i).html( $("#position"+(i-1)).html() );
 			}
@@ -19,7 +28,8 @@ $(document).ready(function(){
 		function first_row(){
 			$("#first_row").load("first_row.php");
 		}
-		$.ajax({
+		if(message!=""){
+			$.ajax({
 				url: "script_messages.php",
 				type: "POST",
 				data: newMessage ,
@@ -31,14 +41,14 @@ $(document).ready(function(){
 
 				},
 				complete: function(){
-					$("#text").val("");
-					setTimeout(function(){
-							msg.html("");
-						},1000);
-					//first_row();
+					clear(1000);
 					chage_pos(10);
 				}
 			});
-
+		}
+		else{
+			msg.html("<label style='color:red'>Enter a message</label>");
+			clear(1000);
+		}
 	});
 });
